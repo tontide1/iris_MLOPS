@@ -43,14 +43,32 @@ def predict_view(request):
             
             # Load model và predict
             model = get_model()
-            prediction_idx = model.predict(features)[0]
+            proba = model.predict_proba(features)[0] # lấy mảng xác suất cho cả 3 loài
+            max_proba = np.max(proba)
             
-            # Map kết quả sang tên loài
-            prediction = SPECIES_MAP[prediction_idx]
+            prediction_idx = np.argmax(proba)
+            
+            if max_proba < 0.8:
+                prediction = None
+                warning_message = f"Dữ liệu ngoại lai hoặc không rõ ràng (Độ tin cậy cao nhất chỉ đạt {max_proba * 100:.1f}%)."
+                
+                return render(request, 'predictor/predict.html', {
+                    'form': form,
+                    'warning_message': warning_message
+                })
+            else:
+                prediction = SPECIES_MAP[prediction_idx]
+                confidence = f"{max_proba * 100:.2f}%"
+                
+                return render(request, 'predictor/predict.html', {
+                    'form': form,
+                    'prediction': prediction,
+                    'confidence': confidence,
+                })
+
     else:
         form = IrisPredictionForm()
     
     return render(request, 'predictor/predict.html', {
         'form': form,
-        'prediction': prediction,
     })

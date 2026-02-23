@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-ql=$rc)9h$$ofkaeq0911v5m$0cu8i8d#5bggqkm^ie3*(8fv0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -68,7 +69,8 @@ TEMPLATES = [
 ]
 
 # Path to ML model
-MODEL_PATH = BASE_DIR.parent / 'weights' / 'logistic_regression_model.pkl'
+# Có thể override bằng biến môi trường MODEL_PATH (hữu ích khi chạy trên Colab hoặc server)
+MODEL_PATH = Path(os.environ.get('MODEL_PATH', BASE_DIR.parent / 'weights' / 'logistic_regression_model.pkl'))
 
 WSGI_APPLICATION = 'iris_project.wsgi.application'
 
