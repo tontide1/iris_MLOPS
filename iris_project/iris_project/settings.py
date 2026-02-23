@@ -28,6 +28,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.ngrok-free.dev',
+    'https://*.ngrok-free.app',
+    'https://*.loca.lt',
+    'https://*.googleusercontent.com',
+]
+
 
 # Application definition
 
