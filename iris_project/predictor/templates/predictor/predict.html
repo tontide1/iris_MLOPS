@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iris Flower Classification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        h1 { color: #333; }
+        label { display: block; margin-top: 15px; font-weight: bold; }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 30px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover { background: #45a049; }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #e7f3fe;
+            border-left: 4px solid #2196F3;
+        }
+        .result h2 { margin-top: 0; color: #2196F3; }
+        .error { color: red; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <h1>Iris Flower Classification</h1>
+    <p>Nhập 4 đặc trưng của hoa Iris để dự đoán loài</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <label>Chiều dài đài hoa (Sepal Length) - cm</label>
+        {{ form.sepal_length }}
+        {% if form.sepal_length.errors %}<span class="error">{{ form.sepal_length.errors.0 }}</span>{% endif %}
+        
+        <label>Chiều rộng đài hoa (Sepal Width) - cm</label>
+        {{ form.sepal_width }}
+        {% if form.sepal_width.errors %}<span class="error">{{ form.sepal_width.errors.0 }}</span>{% endif %}
+        
+        <label>Chiều dài cánh hoa (Petal Length) - cm</label>
+        {{ form.petal_length }}
+        {% if form.petal_length.errors %}<span class="error">{{ form.petal_length.errors.0 }}</span>{% endif %}
+        
+        <label>Chiều rộng cánh hoa (Petal Width) - cm</label>
+        {{ form.petal_width }}
+        {% if form.petal_width.errors %}<span class="error">{{ form.petal_width.errors.0 }}</span>{% endif %}
+        
+        <button type="submit">Predict</button>
+    </form>
+    
+    {% if prediction %}
+    <div class="result">
+        <h2>Kết quả: {{ prediction }}</h2>
+    </div>
+    {% endif %}
+</body>
+</html>
